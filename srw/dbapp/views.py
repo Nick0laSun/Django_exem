@@ -27,3 +27,34 @@ def create(request):
         example.type_of_wave = request.POST.get("wave")
         example.save()
     return HttpResponseRedirect("index")
+
+def search(request):
+    req = request.POST
+    # print(req)
+    if (not req.get("id") and not req.get("title") and not req.get("wave")) or not req:
+        database = Experiment.objects.all()
+    else:
+        # database = Experiment.objects.filter(id=id).filter(title_of_exp__icontains=req.get("title"))
+        if not req.get("id") and not req.get("wave"):
+            database = Experiment.objects.filter(title_of_exp__icontains=req.get("title"))
+
+        if not req.get("title") and not req.get("wave"):
+            id = int(req.get("id"))
+            if (id == 0):
+                database = Experiment.objects.all()
+            else:
+                database = Experiment.objects.filter(id=id)
+
+        if not req.get("id") and not req.get("title"):
+            database = Experiment.objects.filter(type_of_wave__icontains=req.get("wave"))
+
+
+    # if not request.POST.get("id"):
+    #     database = Experiment.objects.all()
+    # else:
+    #     id = int(request.POST.get("id"))
+    #     if (id == 0):
+    #         database = Experiment.objects.all()
+    #     else:
+    #         database = Experiment.objects.filter(id=id)
+    return render(request, "index.html", {"database": database})

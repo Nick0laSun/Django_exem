@@ -33,7 +33,7 @@
             <input type="text" name="video" />
         </p>
         <p>
-            <label>Введите тип волны (внутренняя/внешняя)</label><br>
+            <label>Введите тип волны</label><br>
             {% comment %} <input type="text" name="wave" /> {% endcomment %}
             <input list="wave" name="wave">
             <datalist id="wave">
@@ -49,6 +49,27 @@
             <span id="info_after_wave_choice"></span>
         </p>
         <input type="submit" value="Сохранить" >
+    </form>
+    <form name="search" method="POST" action="search">
+        {% csrf_token %}
+        <h2>Поиск эксперимента</h2>
+        <p>
+            <label>Введите ID эксперимента</label><br>
+            <input type="number" name="id" />
+        </p>
+        <p>
+            <label>Введите название эксперимента</label><br>
+            <input type="text" name="title" />
+        </p>
+        <p>
+            <label>Введите тип волны</label><br>
+            <input list="wave" name="wave">
+            <datalist id="wave">
+                <option value="Внешняя"></option>
+                <option value="Внутренняя"></option>
+            </datalist>
+        </p>
+        <input type="submit" value="Поиск" >
     </form>
     {% if database.count > 0 %}
     <h2>Список экспериментов</h2>
