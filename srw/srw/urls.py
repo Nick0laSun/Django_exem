@@ -18,8 +18,9 @@ from django.urls import path
 from dbapp import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.home),
     path('index', views.index),
+    path('create', views.create),
     # path('admin/', admin.site.urls),
     # path('', views.index),
 ]
