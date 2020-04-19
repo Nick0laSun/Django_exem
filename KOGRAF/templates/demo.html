@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>КОГРАФ 2020</title>
+
+</head>
+<body class="container">
+    <form name="search" method="POST" action="search">
+        {% csrf_token %}
+        <h3>Поиск эксперимента</h3>
+        {% comment %} <p>
+            <label>Введите ID эксперимента</label><br>
+            <input type="number" name="id" />
+        </p>
+        <p>
+            <label>Введите название эксперимента</label><br>
+            <input type="text" name="title" />
+        </p>
+        <p>
+            <label>Введите тип волны</label><br>
+            <input list="wave" name="wave">
+            <datalist id="wave">
+                <option value="Поверхностная"></option>
+                <option value="Внутренняя"></option>
+            </datalist>
+        </p>
+        <input type="submit" value="Поиск" > {% endcomment %}
+        {% comment %} <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Дата и время проведения</th>
+                <th>Название эксперимента</th>
+                <th>Тип берега</th>
+                <th>Настройки волнопродуктора</th>
+                <th>Разница уровней воды (Дамба)</th>
+                <th>Состав жидкости</th>
+                <th>Тип волны</th>
+                <th>Длительность эксперимента</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="number" name="id" />
+                </td>
+                <td>
+                    <input type="datetime-local" name="datetime" />
+                </td>
+                <td>
+                    <input type="text" name="title" />
+                </td>
+                <td>
+                    <input type="text" name="bottom" />
+                </td>
+                <td>
+                    <p><input type="number" name="amplitude" placeholder="Амплитуда (См)"/></p>
+                    <p><input type="number" name="quantity" placeholder="Количество волн"/></p>
+                    <p><input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/></p>
+                    <p><input type="number" name="operatingtime" placeholder="Прод. работы (сек)"/></p>
+                </td>
+                <td>
+                    <input type="number" name="difference" placeholder="см" />
+                </td>
+                <td>
+                    <p><input type="number" name="density" placeholder="г/см^3" /></p>
+                    <p><input type="text" name="color" placeholder="Цвет" /></p>
+                </td>
+                <td>
+                    <input list="wave" name="wave">
+                    <datalist id="wave">
+                        <option value="Поверхностная"></option>
+                        <option value="Внутренняя"></option>
+                    </datalist>
+                </td>
+                <td>
+                    <input type="number" name="duration" placeholder="мин" />
+                </td>
+            </tr>
+        </table> {% endcomment %}
+        {% comment %} <p>
+            <label>Id</label><br>
+            <input type="number" name="id" />
+        </p>
+
+        <p>
+            <label>Дата и время проведения</label><br>
+            <input type="datetime-local" name="datetime" />
+        </p>
+
+        <p>
+            <label>Название эксперимента</label><br>
+            <input type="text" name="title" />
+        </p>
+
+        <p>
+            <label>Тип берега</label><br>
+            <input type="text" name="bottom" />
+        </p>
+
+        <p>
+            <label>Настройки волнопродуктора</label><br>
+            <input type="number" name="amplitude" placeholder="Амплитуда (См)"/>
+            <input type="number" name="quantity" placeholder="Количество волн"/>
+            <input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/>
+            <input type="number" name="operatingtime" placeholder="Прод. работы (сек)"/>
+        </p>
+
+        <p>
+            <label>Разница уровней воды (Дамба)</label><br>
+            <input type="number" name="difference" placeholder="см" />
+        </p>
+
+        <p>
+            <label>Состав жидкости</label><br>
+            <input type="number" name="density" placeholder="г/см^3" />
+            <input type="text" name="color" placeholder="Цвет" />
+        </p>
+
+        <p>
+            <label>Тип волны</label><br>
+            <input list="wave" name="wave">
+            <datalist id="wave">
+                <option value="Поверхностная"></option>
+                <option value="Внутренняя"></option>
+            </datalist>
+        </p>
+
+        <p>
+            <label>Длительность эксперимента</label><br>
+            <input type="number" name="duration" placeholder="мин" />
+        </p> {% endcomment %}
+        <table>
+            <tr>
+                <td>
+                    <p>
+                        <label>Id</label><br>
+                        <input type="number" name="id" />
+                    </p>
+
+                    <p>
+                        <label>Дата и время проведения</label><br>
+                        <input type="datetime-local" name="datetime" />
+                    </p>
+
+                    <p>
+                        <label>Название эксперимента</label><br>
+                        <input type="text" name="title" />
+                    </p>
+
+                    <p>
+                        <label>Тип берега</label><br>
+                        <input type="text" name="bottom" />
+                    </p>
+
+                    <p>
+                        <label>Настройки волнопродуктора</label><br>
+                        <input type="number" name="amplitude" placeholder="Амплитуда (См)"/>
+                        <input type="number" name="quantity" placeholder="Количество волн"/><br>
+                        <input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/>
+                        <input type="number" name="operatingtime" placeholder="Прод. работы (сек)"/>
+                    </p>
+                </td>
+                <td>
+                    <p>
+                        <label>Разница уровней воды (Дамба)</label><br>
+                        <input type="number" name="difference" placeholder="см" />
+                    </p>
+
+                    <p>
+                        <label>Состав жидкости</label><br>
+                        <input type="number" name="density" placeholder="г/см^3" />
+                        <input type="text" name="color" placeholder="Цвет" />
+                    </p>
+
+                    <p>
+                        <label>Тип волны</label><br>
+                        <input list="wave" name="wave">
+                        <datalist id="wave">
+                            <option value="Поверхностная"></option>
+                            <option value="Внутренняя"></option>
+                        </datalist>
+                    </p>
+
+                    <p>
+                        <label>Длительность эксперимента</label><br>
+                        <input type="number" name="duration" placeholder="мин" />
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Поиск" >
+    </form>
+    {% if database.count > 0 %}
+    <h2>Список экспериментов</h2>
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Дата и время проведения</th>
+            <th>Название эксперимента</th>
+            <th>Тип берега</th>
+            <th>Видеозапись</th>
+            <th>Данные с донных датчиков</th>
+            <th>Данные с струнных датчиков</th>
+            <th>Схема эксперимента</th>
+            <th>Настройки волнопродуктора</th>
+            <th>Разница уровней воды (Дамба)</th>
+            <th>Состав жидкости</th>
+            <th>Тип волны</th>
+            <th>Длительность эксперимента</th>
+        </tr>
+        {% for Experiment in database %}
+        <tr>
+            <td>
+                {{ Experiment.idexperiment }}
+            </td>
+            <td>
+                {{ Experiment.dataandtime }}
+            </td>
+            <td>
+                {{ Experiment.titleofexp }}
+            </td>
+            <td>
+                {{ Experiment.typeofbottom }}
+            </td>
+            <td>
+                <a href="{{ Experiment.videoreference }}" target="_blank">YouTube</a>
+            </td>
+            <td>
+                {% if Experiment.result.bottomsensors.results %}
+                    <a href="{{ Experiment.result.bottomsensors.results }}" target="_blank">Скачать</a>
+                {% else %}
+                    <label>Данных нет</label>
+                {% endif %}
+                    {% comment %} <a href="{{ Experiment.result.bottomsensors.results }}" target="_blank">Скачать</a> {% endcomment %}
+            </td>
+            <td>
+                <p>
+                    <label>Ёмкостные датчики:</label>
+                    {% if Experiment.result.stringsensors.capasitivesensorsres %}
+                        <a href="{{ Experiment.result.stringsensors.capasitivesensorsres }}" target="_blank">Скачать</a>
+                    {% else %}
+                        <label>Данных нет</label>
+                    {% endif %}
+                </p>
+
+                <p>
+                    <label>Резестивные датчики:</label>
+                    {% if Experiment.result.stringsensors.resistivesensorsres %}  
+                        <a href="{{ Experiment.result.stringsensors.resistivesensorsres }}" target="_blank">Скачать</a>
+                    {% else %}
+                        <label>Данных нет</label>
+                    {% endif %}
+                </p>
+            </td>
+            <td>
+                {% if Experiment.shemeofexpreference %}
+                    <a href="{{ Experiment.shemeofexpreference }}" target="_blank">Смотреть</a>
+                {% else %}
+                    <label>Данных нет</label>
+                {% endif %}
+            </td>
+            <td>
+                {% if Experiment.typeofforming.wavemaker.operatingtime %}
+                    <p>
+                        <label>Амплитуда волны (cм):</label>
+                        {{ Experiment.typeofforming.wavemaker.amplitude }}
+                    </p>
+                    <p>
+                        <label>Количество волн:</label>
+                        {{ Experiment.typeofforming.wavemaker.quantityofwaves }}
+                    </p>
+                    <p>
+                        <label>Частота волнопродуктора (Гц):</label>
+                        {{ Experiment.typeofforming.wavemaker.frequency }}
+                    </p>
+                    <p>
+                        <label>Продолжительность работы (сек):</label>
+                        {{ Experiment.typeofforming.wavemaker.operatingtime }} 
+                    </p>
+                {% else %}
+                    <label>Данных нет</label>
+                {% endif %}
+            </td>
+            <td>
+                {% if Experiment.typeofforming.dambreak.differenceinliquidlevels %}
+                    {{ Experiment.typeofforming.dambreak.differenceinliquidlevels }} cм
+                {% else %}
+                    <label>Данных нет</label>
+                {% endif %}
+            </td>
+            <td>
+                <p>
+                    {% if Experiment.compositionofwater.densityofwater_g_cm_3_field %}
+                        <label>Плотность жидкости:</label>
+                        {{ Experiment.compositionofwater.densityofwater_g_cm_3_field }} гр/см^3
+                    {% else %}
+                        <label>Данных нет</label>
+                    {% endif %}
+                </p>
+                <p>
+                    {% if Experiment.compositionofwater.nameofthedye %}
+                        <label>Цвет жидкости:</label>
+                        {{ Experiment.compositionofwater.nameofthedye }}
+                    {% else %}
+                        <label>Данных нет</label>
+                    {% endif %}
+                </p>
+            </td>
+            <td>
+                {{ Experiment.typeofwave }}
+            </td>
+            <td>
+                {{ Experiment.durationoftheexp }} мин
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>
