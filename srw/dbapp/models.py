@@ -76,7 +76,7 @@ class Forming(models.Model):
 
 
 class Laser(models.Model):
-    used = models.IntegerField(blank=True, null=True)
+    # used = models.IntegerField(blank=True, null=True)
     video_reference = models.CharField(max_length=256, blank=True, null=True)
     laser_coordinate = models.FloatField(blank=True, null=True)
     viewing_angle = models.FloatField(blank=True, null=True)

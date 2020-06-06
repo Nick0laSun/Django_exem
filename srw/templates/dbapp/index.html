@@ -4,342 +4,394 @@
     <meta charset="utf-8" />
     <title>Модели в Django</title>
 
-    <script>
-        window.onload = function() {
-            var wave = document.getElementById("wave");
-            if (wave == "Поверхностная") {
-                temp = "<input type="number" name="wave_amplitude"/>";
-                alert("if");
+    <script type="text/javascript">
+        function surf_form_choice() {
+            var choice = document.getElementById('surf_form').value;
+            var tbody = document.getElementById('s_menu').getElementsByTagName('tr')[0];
+            var td = tbody.getElementsByTagName('td')[2];
+            var pp = td.getElementsByTagName('p')[1];
+            var p = pp.getElementsByTagName('p')[1];
+            if (p) {
+                p.remove();
             }
-            alert("not if");
-            document.getElementById("info_after_wave_choice").innerHTML = temp;
+
+            if (choice == "Волнопродуктор") {
+                
+                var box = document.createElement("p");
+                box.innerHTML = '<label>Настройки волнопродуктора:</label><br>' +
+                                '<input type="number" name="amplitude" placeholder="Амплитуда (См)"/><br>' +
+                                '<input type="number" name="quantity" placeholder="Количество волн"/><br>' +
+                                '<input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/><br>' +
+                                'Прод. работы (мин:сек)<input type="time" name="operatingtime"/><br>' +
+                                '<input type="number" name="thickness" placeholder="Толщина слоя жидкости"/>';
+                pp.appendChild(box);
+            }
+
+            if (choice == "Прорыв дамбы") {
+                
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Настройки дамбы:</label><br>' +
+                                    '<input type="number" name="wall_coordinate" placeholder="Положение стенки"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Параметры жидкости:</label><br>' +
+                                    '<input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                pp.appendChild(box);
+            }
+        }
+
+        function wave_choice_f() {
+            var choice = document.getElementById('wave').value;
+            //document.getElementById("wave").oninput = function () {
+            //    var inp = this.value;
+            //    alert(inp);
+            //}
+            var tbody = document.getElementById('s_menu').getElementsByTagName('tr')[0];
+            var td = tbody.getElementsByTagName('td')[2];
+            var p = td.getElementsByTagName('p')[1];
+            
+           // if (p) {
+                //alert('not null');
+            //    p.remove();
+            //}
+
+            if (choice == "Поверхностная") {
+                if (p) {
+                    //alert('not null');
+                    p.remove();
+                }
+                var box = document.createElement("p");
+                //box.innerHTML = '<label>Настройки волнопродуктора:</label><br>' +
+                //                '<input type="number" name="amplitude" placeholder="Амплитуда (См)"/><br>' +
+                //                '<input type="number" name="quantity" placeholder="Количество волн"/><br>' +
+                //                '<input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/><br>' +
+                //                'Прод. работы (мин:сек)<input type="time" name="operatingtime"/><br>' +
+                //                '<input type="number" name="thickness" placeholder="Толщина слоя жидкости"/>';
+                box.innerHTML = '<p>' +
+                                 '<label>Способ форминга</label><br>' +
+                                '<input list="surf_form_list" name="surf_form" id="surf_form">' +
+                                '<datalist id="surf_form_list">' +
+                                    '<option value="Волнопродуктор"></option>' +
+                                    '<option value="Прорыв дамбы"></option>' +
+                                '</datalist><br>' +
+                                '<input type="button" onclick="surf_form_choice()" value="Подтвердить" />' +
+                                '</p>';
+                td.appendChild(box);
+            }
+
+            if (choice == "Внутренняя") {
+                if (p) {
+                    //alert('not null');
+                    p.remove();
+                }
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Настройки дамбы:</label><br>' +
+                                    '<input type="number" name="wall_coordinate" placeholder="Положение стенки"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Стратификация</label><br>' +
+                                    '<input list="d_layers_list" name="d_layers" id="d_layers">' +
+                                    '<datalist id="d_layers_list">' +
+                                        '<option value="1">Один слой</option>' +
+                                        '<option value="2">Два слоя</option>' +
+                                        '<option value="3">Три слоя</option>' +
+                                    '</datalist><br>' +
+                                    '<input type="button" onclick="d_layers_choice_f()" value="Подтвердить" />' +
+                                '</p>';
+                td.appendChild(box); 
+            }
+
+            if (choice == "") {
+                if (p) {
+                    //alert('not null');
+                    p.remove();
+                }
+            }
+        }
+
+        function d_layers_choice_f() {
+            var choice = document.getElementById('d_layers').value;
+
+            var tbody = document.getElementById('s_menu').getElementsByTagName('tr')[0];
+            var td = tbody.getElementsByTagName('td')[2];
+            var p = td.getElementsByTagName('p')[1];
+            var strat = p.getElementsByTagName('p')[2];
+            if (strat) {
+                strat.remove();
+            }
+
+            if (choice == "1") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Параметры жидкости:</label><br>' +
+                                    '<input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                p.appendChild(box); 
+            }
+
+            if (choice == "2") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Верхний слой:</label><br>' +
+                                    '<input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>' + 
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Нижний слой:</label><br>' +
+                                    '<input type="number" name="dam_lower_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_lower_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_lower_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                p.appendChild(box);
+            }
+
+            if (choice == "3") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Верхний слой:</label><br>' +
+                                    '<input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Средний слой:</label><br>' +
+                                    '<input type="number" name="dam_middle_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_middle_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_middle_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Нижний слой:</label><br>' +
+                                    '<input type="number" name="dam_lower_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="dam_lower_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="dam_lower_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                p.appendChild(box);
+            }
+        }
+
+        function layers_choice_f() {
+            var choice = document.getElementById('layers').value;
+            
+            var tbody = document.getElementById('s_menu').getElementsByTagName('tr')[0];
+            var td = tbody.getElementsByTagName('td')[1];
+            var p = td.getElementsByTagName('p')[1];
+            if (p) {
+                p.remove();
+            }
+            
+            if (choice == "1") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Параметры жидкости:</label><br>' +
+                                    '<input type="number" name="top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="top_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                td.appendChild(box); 
+            }
+
+            if (choice == "2") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Верхний слой:</label><br>' +
+                                    '<input type="number" name="top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="top_layer_color" placeholder="Название красителя"/><br>' + 
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Нижний слой:</label><br>' +
+                                    '<input type="number" name="lower_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="lower_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="lower_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                td.appendChild(box);
+            }
+
+            if (choice == "3") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    '<label>Верхний слой:</label><br>' +
+                                    '<input type="number" name="top_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="top_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="top_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Средний слой:</label><br>' +
+                                    '<input type="number" name="middle_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="middle_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="middle_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Нижний слой:</label><br>' +
+                                    '<input type="number" name="lower_layer_height" placeholder="Толщина"/><br>' +
+                                    '<input type="number" name="lower_layer_density" placeholder="Плотность г/см^3"/><br>' +
+                                    '<input type="text" name="lower_layer_color" placeholder="Название красителя"/><br>' +
+                                '</p>';
+                td.appendChild(box);
+            }
+        }
+
+        function laser_choice_f() {
+            var choice = document.getElementById('laser').value;
+            
+            var tbody = document.getElementById('s_menu').getElementsByTagName('tr')[0];
+            var td = tbody.getElementsByTagName('td')[3];
+            var p = td.getElementsByTagName('p')[1];
+            if (p) {
+                p.remove();
+            }
+
+            if (choice == "Использовался") {
+                var box = document.createElement("p");
+                box.innerHTML = 
+                                    '<input type="text" name="laser_video" placeholder="Сылка на видео"/><br>' +
+                                    '<input type="number" name="laser_coordinate" placeholder="Место размещения"/><br>' +
+                                    '<input type="number" name="laser_angle" placeholder="Угол линзы"/><br>';
+                td.appendChild(box);
+            }
+        }
+
+        function extra_settings_choice_f() {
+            var choice = document.getElementById('ex_sett').value;
+            
+            var tbody = document.getElementById('s_menu').getElementsByTagName('tr')[0];
+            var td = tbody.getElementsByTagName('td')[4];
+            var p = td.getElementsByTagName('p')[1];
+            if (p) {
+                p.remove();
+            }
+
+            if (choice == "Есть") {
+                var box = document.createElement("p");
+                box.innerHTML = '<p>' +
+                                    'Препятствие:<br>' +
+                                    '<input type="number" name="obstacle_coordinate" placeholder="Место размещения"/><br>' +
+                                    '<input type="number" name="obstacle_height" placeholder="Высота препятствия"/><br>' +
+                                '</p>' +
+                                '<p>' +
+                                    '<label>Тип частиц на поверхности жидкости:</label><br>' +
+                                    '<input type="text" name="type_of_particles"/>' +
+                                '</p>';
+                td.appendChild(box);
+            }
+        }
+
+        function create_smenu_f() {
+            var menu = document.getElementById('search_menu_place');
+            var p = menu.getElementsByTagName('p')[0];
+            if (p) {
+                p.remove();
+            } else {
+                var box = document.createElement('p');
+                box.innerHTML = '<form name="test_search" method="POST" action="search">' +
+                                    '{% csrf_token %}' +
+                                    '<h3>Поиск эксперимента</h3>' +
+                                    '<table id="s_menu">' +
+                                    '<tbody>' +
+                                        '<tr>' +
+                                        '<td>' +
+                                            '<p>' +
+                                                '<label>Id:</label><br>' +
+                                                '<input type="number" name="id" />' +
+                                            '</p>' +
+                                            '<p>' +
+                                                '<label>Дата и время проведения (промежуток):</label><br>' +
+                                                '<input type="datetime-local" name="datetime_point1" /><br>' +
+                                                '<input type="datetime-local" name="datetime_point2" />' +
+                                            '</p>' +
+                                            '<p>' +
+                                                '<label>Длительность эксперимента (промежуток):</label><br>' +
+                                                '<input type="time" name="duration_of_exp_point1" />' +
+                                                '<input type="time" name="duration_of_exp_point2" />' +
+                                            '</p>' +
+                                            '<p>' +
+                                                '<label>Название эксперимента:</label><br>' +
+                                                '<input type="text" name="title" />' +
+                                            '</p>' +
+                                            '<p>' +
+                                                '<label>Тип берега:</label><br>' +
+                                                '<input type="text" name="bottom" />' +
+                                            '</p>' +
+                                            '<p>' +
+                                                '<label>Полярность волны:</label><br>' +
+                                                '<input type="text" name="polarity"/>' +
+                                            '</p>' +
+                                        '</td>' +
+                                        '<td>' +
+                                            '<p>' +
+                                            '<label>Стратификация:</label><br>' +
+                                            '<input list="layers_list" name="layers" id="layers">' +
+                                            '<datalist id="layers_list">' +
+                                                '<option value="1">Один слой</option>' +
+                                                '<option value="2">Два слоя</option>' +
+                                                '<option value="3">Три слоя</option>' +
+                                            '</datalist><br>' +
+                                            '<input type="button" onclick="layers_choice_f()" value="Подтвердить" />' +
+                                            '</p>' +
+                                        '</td>' +
+                                        '<td>' +
+                                            '<p>' +
+                                                '<label>Тип волны:</label><br>' +
+                                                '<input list="wave_list" name="wave" id="wave">' +
+                                                '<datalist id="wave_list">' +
+                                                    '<option value="Поверхностная"></option>' +
+                                                    '<option value="Внутренняя"></option>' +
+                                                '</datalist><br>' +
+                                                '<input type="button" onclick="wave_choice_f()" value="Подтвердить" />' +
+                                            '</p>' +
+                                        '</td>' +
+                                        '<td>' +
+                                            '<p>' +
+                                                '<label>Лазер:</label><br>' +
+                                                '<input list="laser_list" name="laser" id="laser">' +
+                                                '<datalist id="laser_list">' +
+                                                    '<option value="Использовался"></option>' +
+                                                    '<option value="Не использовался"></option>' +
+                                                '</datalist><br>' +
+                                                '<input type="button" onclick="laser_choice_f()" value="Подтвердить" />' +
+                                            '</p>' +
+                                        '</td>' +
+                                        '<td>' +
+                                            '<p>' +
+                                                '<label>Доп. настройки:</label><br>' +
+                                                '<input list="extra_settings" name="ex_sett" id="ex_sett">' +
+                                                '<datalist id="extra_settings">' +
+                                                    '<option value="Есть"></option>' +
+                                                    '<option value="Нет"></option>' +
+                                                '</datalist><br>' +
+                                                '<input type="button" onclick="extra_settings_choice_f()" value="Подтвердить"/>' +
+                                            '</p>' +
+                                        '</td>' +
+                                    '</tr>' +
+                                    '</tbody>' +
+                                    '</table>' +
+                                    '<input type="submit" value="Поиск" >' +
+                                '</form>';
+                menu.append(box);
+            }
         }
     </script>
 
 </head>
 <body class="container">
-    <form method="POST" action="create">
-        {% csrf_token %}
-        {% comment %} <p>
-            <label>Введите название эксперимента</label><br>
-            <input type="text" name="title" />
-        </p>
-        <p>
-            <label>Введите тип береговой линии</label><br>
-            <input type="text" name="bottom" />
-        </p>
-        <p>
-            <label>Вставьте ссылку на видеозапись эксперимента</label><br>
-            <input type="text" name="video" />
-        </p>
-        <p>
-            <label>Введите тип волны</label><br>
-            <input list="wave" name="wave">
-            <datalist id="wave">
-                <option value="Поверхностная"></option>
-                <option value="Внутренняя"></option>
-            </datalist>
-        </p>
-        <p>
-            <span id="info_after_wave_choice"></span>
-        </p> {% endcomment %}
-        <table>
-            <tr>
-                <td>
-                    {% comment %} <p>
-                        <label>Id</label><br>
-                        <input type="number" name="id" />
-                    </p> {% endcomment %}
+    <h3>Поиск эксперимента</h3>
+    <table border="1">
+    <tr><td>
+        <input type="button" onclick="create_smenu_f()" value="Меню поиска" />
+    </td></tr>
+    <tr><td>
+        <div id="search_menu_place"></div>
+    </td></tr>
+    </table>
 
-                    <p>
-                        <label>Дата и время проведения</label><br>
-                        <input type="number" size="4" name="year" placeholder="гг"/>-
-                        <input type="number" size="2" name="month" placeholder="мм"/>-
-                        <input type="number" size="2" name="day" placeholder="дд"/><br>
-                        <input type="number" size="2" name="hour" min="0" max="24" placeholder="чч"/>:
-                        <input type="number" size="2" name="min" min="0" max="59" placeholder="мм"/>:
-                        <input type="number" size="2" name="sec" min="0" max="59" placeholder="сс"/>
-                    </p>
-
-                    <p>
-                        <label>Длительность эксперимента</label><br>
-                        <input type="number" size="2" name="dur_hour" min="0" max="24" placeholder="чч"/>:
-                        <input type="number" size="2" name="dur_min" min="0" max="59" placeholder="мм"/>:
-                        <input type="number" size="2" name="dur_sec" min="0" max="59" placeholder="сс"/>
-                    </p>
-
-                    <p>
-                        <label>Название эксперимента</label><br>
-                        <input type="text" name="title" />
-                    </p>
-
-                    <p>
-                        <label>Видеозапись эксперимента</label><br>
-                        <input type="text" name="video" />
-                    </p>
-
-                    <p>
-                        <label>Тип берега</label><br>
-                        <input type="text" name="bottom" />
-                    </p>
-
-                    <p>
-                        <label>Тип волны</label><br>
-                        <input list="wave" name="wave">
-                        <datalist id="wave">
-                            <option value="Поверхностная"></option>
-                            <option value="Внутренняя"></option>
-                        </datalist>
-                    </p>
-
-                    <p>
-                        <label>Показания донных датчиков</label><br>
-                        <input type="text" name="bottom_sensors"/>
-                    </p>
-
-                    <p>
-                        <label>Показания ёмкостных датчиков</label><br>
-                        <input type="text" name="capasitive_sensors"/>
-                    </p>
-
-                    <p>
-                        <label>Показания резистивных датчиков</label><br>
-                        <input type="text" name="resistive_sensors"/>
-                    </p>
-
-                    <p>
-                        <label>Полярность волны</label><br>
-                        <input type="text" name="polarity"/>
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        <label>Схема эксперимента</label><br>
-                        <input type="text" name="schema"/>
-                    </p>
-                    <p>
-                        <label>Стратификация</label>
-                        <p>
-                            <label>Верхний слой:</label><br>
-                            <input type="number" name="top_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="top_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="top_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Средний слой:</label><br>
-                            <input type="number" name="middle_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="middle_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="middle_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Нижний слой:</label><br>
-                            <input type="number" name="lower_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="lower_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="lower_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        <label>Настройки волнопродуктора:</label><br>
-                        <input type="number" name="amplitude" placeholder="Амплитуда (См)"/><br>
-                        <input type="number" name="quantity" placeholder="Количество волн"/><br>
-                        <input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/><br>
-                        <input type="number" size="2" name="wavemaker_dur_hour" min="0" max="24" placeholder="чч"/>:
-                        <input type="number" size="2" name="wavemaker_dur_min" min="0" max="59" placeholder="мм"/>:
-                        <input type="number" size="2" name="wavemaker_dur_sec" min="0" max="59" placeholder="сс"/><br>
-                        <input type="number" name="thickness" placeholder="Толщина слоя жидкости"/>
-                    </p>
-                <td>
-                <td>
-                    <p>
-                        <label>Настройки дамбы:</label><br>
-                        <input type="number" name="wall_coordinate" placeholder="Положение стенки"/><br>
-                        <p>
-                            <label>Верхний слой:</label><br>
-                            <input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Средний слой:</label><br>
-                            <input type="number" name="dam_middle_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_middle_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_middle_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Нижний слой:</label><br>
-                            <input type="number" name="dam_lower_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_lower_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_lower_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                    </p>
-                </td>
-                <td>
-                    <label>Настройки лазера</label><br>
-                    <input list="used" name="used">
-                        <datalist id="used">
-                            <option value="Использовался"></option>
-                            <option value="Не использовался"></option>
-                        </datalist>
-                    <br>
-                    <input type="text" name="laser_video" placeholder="Сылка на видео"/><br>
-                    <input type="number" name="laser_coordinate" placeholder="Место размещения"/><br>
-                    <input type="number" name="laser_angle" placeholder="Угол линзы"/><br>
-                </td>
-                <td>
-                    <label>Доп. настройки</label>
-                    <p>
-                        Препятствие:<br>
-                        <input type="number" name="obstacle_coordinate" placeholder="Место размещения"/><br>
-                        <input type="number" name="obstacle_height" placeholder="Высота препятствия"/><br>
-                    </p>
-                    <p>
-                        <label>Тип частиц на поверхности жидкости:</label><br>
-                        <input type="text" name="type_of_particles"/>
-                    </p>
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Сохранить" >
-    </form>
-    <form name="search" method="POST" action="search">
-        {% csrf_token %}
-        <h3>Поиск эксперимента</h3>
-        <table>
-            <tr>
-                <td>
-                    <p>
-                        <label>Id</label><br>
-                        <input type="number" name="id" />
-                    </p>
-
-                    <p>
-                        <label>Дата и время проведения</label><br>
-                        <input type="number" size="4" name="year" placeholder="гг"/>-
-                        <input type="number" size="2" name="month" placeholder="мм"/>-
-                        <input type="number" size="2" name="day" placeholder="дд"/><br>
-                        <input type="number" size="2" name="hour" value="00"/>:
-                        <input type="number" size="2" name="min" value="00"/>:
-                        <input type="number" size="2" name="sec" value="00"/>
-                    </p>
-
-                    <p>
-                        <label>Длительность эксперимента</label><br>
-                        <input type="number" size="2" name="dur_hour" value="00"/>:
-                        <input type="number" size="2" name="dur_min" value="00"/>:
-                        <input type="number" size="2" name="dur_sec" value="00"/>
-                    </p>
-
-                    <p>
-                        <label>Название эксперимента</label><br>
-                        <input type="text" name="title" />
-                    </p>
-
-                    <p>
-                        <label>Тип берега</label><br>
-                        <input type="text" name="bottom" />
-                    </p>
-
-                    <p>
-                        <label>Тип волны</label><br>
-                        <input list="wave" name="wave">
-                        <datalist id="wave">
-                            <option value="Поверхностная"></option>
-                            <option value="Внутренняя"></option>
-                        </datalist>
-                    </p>
-
-                    <p>
-                        <label>Полярность волны</label><br>
-                        <input type="text" name="polarity"/>
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        <label>Стратификация</label>
-                        <p>
-                            <label>Верхний слой:</label><br>
-                            <input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Средний слой:</label><br>
-                            <input type="number" name="dam_middle_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_middle_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_middle_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Нижний слой:</label><br>
-                            <input type="number" name="dam_lower_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_lower_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_lower_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                    </p>
-                </td>
-                <td>
-                    <p>
-                        <label>Настройки волнопродуктора:</label><br>
-                        <input type="number" name="amplitude" placeholder="Амплитуда (См)"/><br>
-                        <input type="number" name="quantity" placeholder="Количество волн"/><br>
-                        <input type="number" name="frequency" placeholder="Частота волнопрод.(Гц)"/><br>
-                        Прод. работы (мин:сек)<input type="time" name="operatingtime"/><br>
-                        <input type="number" name="thickness" placeholder="Толщина слоя жидкости"/>
-                    </p>
-                <td>
-                <td>
-                    <p>
-                        <label>Настройки дамбы:</label><br>
-                        <input type="number" name="wall_coordinate" placeholder="Положение стенки"/><br>
-                        <p>
-                            <label>Верхний слой:</label><br>
-                            <input type="number" name="dam_top_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_top_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_top_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Средний слой:</label><br>
-                            <input type="number" name="dam_middle_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_middle_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_middle_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                        <p>
-                            <label>Нижний слой:</label><br>
-                            <input type="number" name="dam_lower_layer_height" placeholder="Толщина"/><br>
-                            <input type="number" name="dam_lower_layer_density" placeholder="Плотность г/см^3"/><br>
-                            <input type="text" name="dam_lower_layer_color" placeholder="Название красителя"/><br>
-                        </p>
-                    </p>
-                </td>
-                <td>
-                    <label>Настройки лазера</label><br>
-                    <input list="used" name="used">
-                        <datalist id="used">
-                            <option value="Использовался"></option>
-                            <option value="Не использовался"></option>
-                        </datalist>
-                    <br>
-                    <input type="text" name="laser_video" placeholder="Сылка на видео"/><br>
-                    <input type="number" name="laser_coordinate" placeholder="Место размещения"/><br>
-                    <input type="number" name="laser_angle" placeholder="Угол линзы"/><br>
-                </td>
-                <td>
-                    <label>Доп. настройки</label>
-                    <p>
-                        Препятствие:<br>
-                        <input type="number" name="obstacle_coordinate" placeholder="Место размещения"/><br>
-                        <input type="number" name="obstacle_height" placeholder="Высота препятствия"/><br>
-                    </p>
-                    <p>
-                        <label>Тип частиц на поверхности жидкости:</label><br>
-                        <input type="text" name="type_of_particles"/>
-                    </p>
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Поиск" >
-    </form>
     {% if database.count > 0 %}
     <h2>Список экспериментов</h2>
     <table border="1">
@@ -407,7 +459,9 @@
             </td>
             <td>
                 {% if Experiment.result.bottom_sensors.results %}
-                    {{ Experiment.result.bottom_sensors.results }}
+                    <a href="{{ Experiment.result.bottom_sensors.results }}" target="_blank">
+                        Скачать
+                    </a>
                 {% else %}
                     Данных нет
                 {% endif %}
@@ -444,7 +498,8 @@
                 {% endif %}
             </td>
             <td>
-                {% if Experiment.type_of_wave == "Поверхностная" %}
+                {% comment %} {% if Experiment.type_of_wave == "Поверхностная" %} {% endcomment %}
+                {% if Experiment.type_of_forming.wave_maker %}
                     <p>
                         Амплитуда волны:
                         {% if Experiment.type_of_forming.wave_maker.amplitude %}
@@ -490,7 +545,8 @@
                 {% endif %}
             </td>
             <td>
-                {% if Experiment.type_of_wave == "Внутренняя" %}
+                {% comment %} {% if Experiment.type_of_wave == "Внутренняя" %} {% endcomment %}
+                {% if Experiment.type_of_forming.dam_break %}
                     <p>
                         Положение стенки:
                         {% if Experiment.type_of_forming.dam_break.wall_coordinate %}
