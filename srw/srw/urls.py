@@ -18,9 +18,18 @@ from django.urls import path
 from dbapp import views
 
 urlpatterns = [
-    path('', views.home),
+    # path('', views.home),
     path('index', views.index),
+<<<<<<< Updated upstream
     path('create', views.create),
     # path('admin/', admin.site.urls),
     # path('', views.index),
+=======
+    # path('create', views.create),
+    path('search', views.search),
+    path('test', views.test),
+    path('test_search', views.test_search),
+    # path('admin/', admin.site.urls),
+    path('', admin.site.urls),
+>>>>>>> Stashed changes
 ]

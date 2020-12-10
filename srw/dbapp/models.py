@@ -95,8 +95,8 @@ class Particlesonthesurface(models.Model):
 
 
 class Results(models.Model):
-    bottom_sensors = models.ForeignKey(Bottomsensorsresults, models.CASCADE, related_name='bottom_sens', db_column='bottom_sensors')
-    string_sensors = models.ForeignKey(Stringsensorsresults, models.CASCADE, related_name='string_sens', db_column='string_sensors')
+    bottom_sensors = models.ForeignKey(Bottomsensorsresults, models.CASCADE, related_name='bottom_sens', db_column='bottom_sensors') #, blank=True, null=True)
+    string_sensors = models.ForeignKey(Stringsensorsresults, models.CASCADE, related_name='string_sens', db_column='string_sensors') #, blank=True, null=True)
 
     class Meta:
         managed = False
