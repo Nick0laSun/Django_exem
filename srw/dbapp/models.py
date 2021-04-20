@@ -76,7 +76,7 @@ class Forming(models.Model):
 
 
 class Laser(models.Model):
-    used = models.IntegerField(blank=True, null=True)
+    # used = models.IntegerField(blank=True, null=True)
     video_reference = models.CharField(max_length=256, blank=True, null=True)
     laser_coordinate = models.FloatField(blank=True, null=True)
     viewing_angle = models.FloatField(blank=True, null=True)
@@ -127,7 +127,7 @@ class Experiment(models.Model):
     type_of_bottom = models.CharField(max_length=100, blank=True, null=True)
     video_reference = models.CharField(max_length=256, blank=True, null=True)
     result = models.ForeignKey(Results, models.CASCADE, related_name='result', db_column='result')
-    sheme_of_exp_reference = models.CharField(max_length=256, blank=True, null=True)
+    schema_of_exp_reference = models.CharField(max_length=256, blank=True, null=True)
     type_of_forming = models.ForeignKey(Forming, models.CASCADE, related_name='forming', db_column='type_of_forming')
     type_of_wave = models.CharField(max_length=45, blank=True, null=True)
     duration_of_the_exp = models.TimeField(blank=True, null=True)

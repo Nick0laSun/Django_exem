@@ -1,8 +1,15 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.db.models import Q
+from itertools import chain
+# from django_reverse_admin import ReverseModelAdmin
+from .models import Experiment, Results, Bottomsensorsresults, \
+    Stringsensorsresults, Forming, Wavemaker, Dambreak, \
+    Typeofstratification, Compositionofwaterlayer, \
+    Typesofexperiment, Particlesonthesurface, \
+    Spreadoveranobstacle, Laser
 
-<<<<<<< Updated upstream
-# Register your models here.
-=======
+
 def layer_html_compilation(layer, level):
     if not (layer.density_of_water_g_cm_3_field):
         density = '-'
@@ -95,6 +102,98 @@ def particles_on_the_surface_html_comp(obj):
     res = format_html('Type of particles: {0}', str(particles))
 
     return res
+
+def float_params_filter(data_list, search_term_as_float):
+
+    queryset1 = data_list.filter(
+        Q(type_of_forming__wave_maker__amplitude__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_forming__wave_maker__quantity_of_waves__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_forming__wave_maker__frequency__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_forming__wave_maker__water_height__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_stratification__top_layer__density_of_water_g_cm_3_field__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_stratification__top_layer__layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    print(data_list)
+
+    # buffer = data_list.type_of_forming.dam_break.type_of_stratification.top_layer.filter(layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001)).all()
+    # print(buffer)
+
+    queryset2 = data_list.filter(
+        Q(type_of_forming__dam_break__wall_coordinate__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+        # Q(type_of_forming__dam_break__type_of_stratification__middle_layer__density_of_water_g_cm_3_field__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        # Q(type_of_forming__dam_break__type_of_stratification__middle_layer__layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        # Q(type_of_forming__dam_break__type_of_stratification__lower_layer__density_of_water_g_cm_3_field__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        # Q(type_of_forming__dam_break__type_of_stratification__lower_layer__layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    queryset3 = data_list.filter(
+        Q(type_of_stratification__top_layer__density_of_water_g_cm_3_field__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_stratification__top_layer__layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    queryset4 = data_list.filter(
+        Q(type_of_stratification__middle_layer__density_of_water_g_cm_3_field__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_stratification__middle_layer__layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    queryset5 = data_list.filter(
+        Q(type_of_stratification__lower_layer__density_of_water_g_cm_3_field__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(type_of_stratification__lower_layer__layer_height__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    queryset6 = data_list.filter(
+        Q(types_of_experiment__spread_over_an_obstacle__obstacle_coordinate__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(types_of_experiment__spread_over_an_obstacle__obstacle_height__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    queryset7 = data_list.filter(
+        Q(laser__laser_coordinate__range=(search_term_as_float-0.001,search_term_as_float+0.001)) |
+        Q(laser__viewing_angle__range=(search_term_as_float-0.001,search_term_as_float+0.001))
+    )
+
+    queryset = data_list.none()
+
+    if queryset1:
+        queryset1 = queryset1.order_by('id')
+        queryset |= queryset1
+
+    if queryset2:
+        queryset2 = queryset2.order_by('id')
+        queryset |= queryset2
+
+    if queryset3:
+        queryset3 = queryset3.order_by('id')
+        queryset |= queryset3
+
+    if queryset4:
+        queryset4 = queryset4.order_by('id')
+        queryset |= queryset4
+    
+    if queryset5:
+        queryset5 = queryset5.order_by('id')
+        queryset |= queryset5
+    
+    if queryset6:
+        queryset6 = queryset6.order_by('id')
+        queryset |= queryset6
+
+    if queryset7:
+        queryset7 = queryset7.order_by('id')
+        queryset |= queryset7
+
+    # queryset = queryset1 | queryset3
+    print(queryset)
+    print(queryset1)
+    print(queryset2)
+    print(queryset3)
+    print(queryset4)
+    print(queryset5)
+    print(queryset6)
+    print(queryset7)
+
+    return queryset
+
 
 # Register your models here.
 
@@ -278,29 +377,53 @@ class ExperimentAdmin(admin.ModelAdmin):
         'type_of_forming__wave_maker__frequency',
         # 'type_of_forming__wave_maker__operating_time',
         'type_of_forming__wave_maker__water_height',
-        'type_of_forming__dam_break__wall_coordinate',
-        # 'type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field',
-        # 'type_of_forming__dam_break__type_of_stratification__top_layer__name_of_the_dye',
-        # 'type_of_forming__dam_break__type_of_stratification__top_layer__layer_height',
-        # 'type_of_forming__dam_break__type_of_stratification__middle_layer__density_of_water_g_cm_3_field',
-        # 'type_of_forming__dam_break__type_of_stratification__middle_layer__name_of_the_dye',
-        # 'type_of_forming__dam_break__type_of_stratification__middle_layer__layer_height',
-        # 'type_of_forming__dam_break__type_of_stratification__lower_layer__density_of_water_g_cm_3_field',
-        # 'type_of_forming__dam_break__type_of_stratification__lower_layer__name_of_the_dye',
-        # 'type_of_forming__dam_break__type_of_stratification__lower_layer__layer_height'
+        'type_of_forming__dam_break__wall_coordinate'
         )
     
     date_hierarchy = 'date_and_time'
 
     ordering = ['id']
 
-    search_fields = [
-        'type_of_forming__wave_maker__amplitude', 
-        'type_of_forming__wave_maker__quantity_of_waves',
-        'type_of_forming__wave_maker__frequency',
-        'type_of_forming__wave_maker__operating_time',
-        'type_of_forming__wave_maker__water_height'
-    ]
+    search_fields = ['id']
+
+    def get_search_results(self, request, queryset, search_term):
+        
+        try:
+            search_term_as_float = float(search_term)
+        except ValueError:
+            pass
+        else:
+            data_list = self.model.objects
+            queryset = float_params_filter(data_list, search_term_as_float)
+
+            # queryset = data_list.filter(type_of_forming__wave_maker__amplitude=search_term_as_float)
+            # if not queryset:
+            #     queryset = data_list.filter(type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field=search_term_as_float)
+            #     if not queryset:
+            #         queryset = data_list.filter(type_of_forming__dam_break__type_of_stratification__top_layer__layer_height=search_term_as_float)
+                   
+            # .filter(type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field=search_term_as_float) \
+            # .filter(type_of_forming__dam_break__type_of_stratification__top_layer__layer_height=search_term_as_float) \
+            # .order_by('id')
+            # print(queryset)
+        return super().get_search_results(request, queryset, '')
+
+    # search_fields = [
+    #     # 'type_of_forming__wave_maker__amplitude', 
+    #     # 'type_of_forming__wave_maker__quantity_of_waves',
+    #     # 'type_of_forming__wave_maker__frequency',
+    #     # 'type_of_forming__wave_maker__operating_time',
+    #     # 'type_of_forming__wave_maker__water_height',
+    #     'type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field',
+    #     'type_of_forming__dam_break__type_of_stratification__top_layer__name_of_the_dye',
+    #     'type_of_forming__dam_break__type_of_stratification__top_layer__layer_height',
+    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__density_of_water_g_cm_3_field',
+    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__name_of_the_dye',
+    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__layer_height',
+    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__density_of_water_g_cm_3_field',
+    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__name_of_the_dye',
+    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__layer_height'
+    # ]
 
     # inline_reverse = ['laser']
 
@@ -636,4 +759,3 @@ admin.site.register(Typeofstratification, TypeofstratificationAdmin)
 
 
 
->>>>>>> Stashed changes
