@@ -361,7 +361,7 @@ class ExperimentAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'date_and_time', 'title_of_exp', 'type_of_bottom', 'video_ref', \
         'string_sensors_results', 'bottom_sensors_results', 'schema_of_exp', \
-        'wavemaker_settings', 'dam_break_experiment_settings', \
+        'wavemaker_settings', \
         'dam_wall_coordinate', 'dam_top_layer_settings', 'dam_middle_layer_settings', 'dam_lower_layer_settings', \
         'stratification_top_layer_sett', 'stratification_middle_layer_sett', 'stratification_lower_layer_sett', \
         'type_of_wave', 'duration_of_exp', \
