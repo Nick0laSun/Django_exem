@@ -1,28 +1,133 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
     <meta charset="utf-8" />
     <title>Модели в Django</title>
 
     <!-- {% static 'scripts/searchMenu.js' %} -->
-    <script type="text/javascript" src="{% static 'scripts/searchMenu.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'scripts/searchMenu.js' %}"></script> -->
+    <script type="text/javascript">
+        function change_query_field_f() {
+            var select = document.getElementById('select_data_field');
+            var value = select.options[select.selectedIndex].value;
+
+            var table = document.getElementById('search_menu');
+            var tr = table.getElementsByTagName('tr')[0];
+            var td = tr.getElementsByTagName('td')[1];
+            var td_extra = tr.getElementsByTagName('td')[2];
+            var div = document.getElementById('input_placeholder');
+            var p = div.getElementsByTagName('p')[0];
+            if(p) {p.remove();}
+
+            var tag_html = document.createElement("p");
+            if(value == "id") {
+                if(td_extra) {td_extra.remove();}
+                tag_html.innerHTML = '<input type="number" id="id_exp" placeholder="id эксперимента"/>';
+                div.appendChild(tag_html);
+            }
+            if(value == "title") {
+                if(td_extra) {td_extra.remove();}
+                tag_html.innerHTML = '<p>' +
+                                        '<input type="text" id="title_exp" placeholder="Название эксперимента"/>' +
+                                     '</p>';
+                div.appendChild(tag_html);
+            }
+            if(value == "date_time") {
+                if(td_extra) {td_extra.remove();}
+                tag_html.innerHTML = '<p>' +
+                                        '<input type="datetime-local" id="dt_start_exp"/>' +
+                                        '<input type="datetime-local" id="dt_end_exp"/>' +
+                                     '</p>';
+                div.appendChild(tag_html);
+            }
+            if(value == "time") {
+                if(td_extra) {td_extra.remove();}
+                tag_html.innerHTML = '<p>' +
+                                        '<input type="time" id="t_start_exp"/>' +
+                                        '<input type="time" id="t_end_exp"/>' +
+                                     '</p>';
+                div.appendChild(tag_html);
+            }
+            if(value == "bottom") {
+                if(td_extra) {td_extra.remove();}
+                tag_html.innerHTML = '<p>' +
+                                        '<input type="text" id="bottom_exp" placeholder="Береговой профиль"/>' +
+                                     '</p>';
+                div.appendChild(tag_html);
+            }
+            if(value == "polarity") {
+                if(td_extra) {td_extra.remove();}
+                tag_html.innerHTML = '<p>' +
+                                        '<select name="pol" id="pol">' +
+                                            '<option selected disabled>Полярность волны</option>' +
+                                            '<option value="1">Положительная</option>' +
+                                            '<option value="2">Отрицательная</option>' +
+                                        '</select>' +
+                                     '</p>';
+                div.appendChild(tag_html);
+            }
+            if(value == "wave_type") {
+                tag_html.innerHTML = '<p>' +
+                                        '<select name="wave" id="wave">' +
+                                            '<option selected disabled>Выберите поле поиска</option>' +
+                                            '<option value="1">Поверхностная</option>' +
+                                            '<option value="2">Внутренняя</option>' +
+                                        '</select>' +
+                                     '</p>';
+                div.appendChild(tag_html);
+            }
+        }
+    
+        function change_query_field_f1() {
+            var select = document.getElementById('select_data_field');
+            var value = select.options[select.selectedIndex].value;
+
+            var input = document.getElementById('search_input');
+            
+            if(value == "id") {
+                input.type = "number";
+                // input.disabled = false;
+                input.placeholder = "id эксперимента";
+            }
+        }
+    
+    </script>
 
 </head>
 <body class="container">
-    <h3>Поиск эксперимента</h3> 
+    <h3>Поиск эксперимента</h3>
 
-    <legend>Поиск по параметру</legend>
-        <!-- <select id="select_data_field" onchange="change_query_field_f()"> -->
-        <select id="select_data_field" name="select_data_field" onclick="test_click()" onchange='change_query_field_f(this)'>
-            <option selected disabled>Выберите поле поиска</option>
-            <option value="id">id</option>
-            <option value="title">Название</option>
-        </select>
-        <!-- <input type="button" onclick="change_query_field_f()" value="Подтвердить" /> -->
-        <div id="input_field"></div>
+    <form id="search_form" name="test_search" method="POST" action="test_search">
+        {% csrf_token %}
+        <table id="search_menu">
+            <tbody>
+                <tr>
+                    <legend>Поиск по параметру</legend>
+                    <td>
+                        <select id="select_data_field" name="select_data_field" onchange="change_query_field_f1()">
+                            <option selected disabled>Выберите поле поиска</option>
+                            <option value="id">id</option>
+                            <option value="title">Название</option>
+                            <option value="date_time">Время проведения</option>
+                            <option value="time">Продолжительность эксперимента</option>
+                            <option value="bottom">Тип берега</option>
+                            <option value="polarity">Полярность волны</option>
+                            <option value="wave_type">Тип волны</option>
+                        </select>
 
+                        <input type="number" id="search_input" placeholder="Выберите поле поиска"/>
+                    </td>     
+                    <td>
+                        <div id="input_placeholder"></div>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
+        <input type="submit" value="Поиск">
+    </form>
 
     {% if database.count > 0 %}
     <h2>Список экспериментов</h2>

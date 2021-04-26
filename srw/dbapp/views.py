@@ -13,9 +13,10 @@ def test(request):
 
 def test_search(request):
     req = request.POST
-    print('test complited')
-    print(req.get("id"))
-    return render(request, "test.html")
+    print(req)
+    print(request)
+    database = Experiment.objects.all()
+    return render(request, "dbapp/index.html", {"database": database})
     
 def index(request):
     database = Experiment.objects.all()

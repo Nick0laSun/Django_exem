@@ -1,7 +1,3 @@
-$(window).scroll(function() {
-    alert('It is work');
-});
-
 window.onload = function () {
     console.log('It is work');
 };
