@@ -38,8 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'dbapp',
+    'dbapp.apps.DbappConfig',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,14 +88,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME':  'lmnad',
-        ## 'ENGINE': 'django.db.backends.sqlite3',
-        ## 'NAME':  os.path.join(BASE_DIR, 'db.sqlite3'),
         'USER': 'root',
         'PASSWORD': '2415',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
+
+        ## 'ENGINE': 'django.db.backends.sqlite3',
+        ## 'NAME':  os.path.join(BASE_DIR, 'db.sqlite3'),
 
 
 # Password validation

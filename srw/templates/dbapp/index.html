@@ -7,7 +7,7 @@
 
     <!-- {% static 'scripts/searchMenu.js' %} -->
     <!-- <script type="text/javascript" src="{% static 'scripts/searchMenu.js' %}"></script> -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         function change_query_field_f() {
             var select = document.getElementById('select_data_field');
             var value = select.options[select.selectedIndex].value;
@@ -92,20 +92,21 @@
             }
         }
     
-    </script>
+    </script> -->
 
 </head>
 <body class="container">
     <h3>Поиск эксперимента</h3>
 
-    <form id="search_form" name="test_search" method="POST" action="test_search">
+    <form id="search_form" method="POST" action="search_form">
         {% csrf_token %}
         <table id="search_menu">
             <tbody>
                 <tr>
                     <legend>Поиск по параметру</legend>
                     <td>
-                        <select id="select_data_field" name="select_data_field" onchange="change_query_field_f1()">
+                        <!-- <select id="select_data_field" name="select_data_field" onchange="change_query_field_f1()"> -->
+                        <select id="select_data_field" name="select_data_field">
                             <option selected disabled>Выберите поле поиска</option>
                             <option value="id">id</option>
                             <option value="title">Название</option>
@@ -114,48 +115,77 @@
                             <option value="bottom">Тип берега</option>
                             <option value="polarity">Полярность волны</option>
                             <option value="wave_type">Тип волны</option>
+                            <option value="wave_maker">Параметры волнопродуктора</option>
+                            <option value="stratif3">Стратификация жидкости (3 слоя)</option>
+                            <option value="stratif2">Стратификация жидкости (2 слоя)</option>
+                            <option value="stratif1">Стратификация жидкости (1 слой)</option>
                         </select>
 
-                        <input type="number" id="search_input" placeholder="Выберите поле поиска"/>
+                        <!-- <input type="number" id="search_input" placeholder="Выберите поле поиска"/> -->
                     </td>     
-                    <td>
+                    <!-- <td>
                         <div id="input_placeholder"></div>
-                        
+                    </td> -->
+                    <td>
+                        <input type="submit" value="Подтвердить">
                     </td>
                 </tr>
             </tbody>
         </table>
+    </form>
 
-        <input type="submit" value="Поиск">
+    <form method="POST" action="search">
+        {% csrf_token %}
+        {% if form.mod == "strat" %}
+            {% if form.top_layer %}
+                <label>Верхний слой <p id="fl"> {{ form.top_layer }} </p></label>
+            {% endif %}
+            {% if form.middle_layer %}
+                <label>Средний слой <p id="sl"> {{ form.middle_layer }} </p></label>
+            {% endif %}
+            {% if form.lower_layer %}
+                <label>Нижний слой <p id="tl"> {{ form.lower_layer }} </p></label>
+            {% endif %}
+        {% elif form.mod == "wm" %}
+            <label for="wm_set">Настройки волнопродуктора</label>
+            <p id="wm_set">
+                {{ form.wavemaker }} 
+            </p>
+        {% else %}
+            {{ form }}
+        {% endif %}
+        <br><input type="submit" value="Поиск">
     </form>
 
     {% if database.count > 0 %}
     <h2>Список экспериментов</h2>
-    <table border="1">
-        <tr>
-            <th>Id</th>
-            <th>Дата и время проведения</th>
-            <th>Название эксперимента</th>
-            <th>Тип берега</th>
-            <th>Тип волны</th>
-            <th>Видеозапись</th>
-            
-            <th>Данные с донных датчиков</th>
-            <th>Данные с струнных датчиков</th>
-            <th>Схема эксперимента</th>
-            <th>Настройки волнопродуктора</th>
-            <th>Дамба</th>
-            
-            <th>Длительность эксперимента</th>
-            <th>Стратификация</th>
-            <th>Полярность волны</th>
-            <th>Настройки лазера</th>
-            <th>Доп. условия</th>
-        </tr>
+    <table name="data_table" border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Дата и время проведения</th>
+                <th>Название эксперимента</th>
+                <th>Тип берега</th>
+                <th>Тип волны</th>
+                <th>Видеозапись</th>
+                
+                <th>Данные с донных датчиков</th>
+                <th>Данные с струнных датчиков</th>
+                <th>Схема эксперимента</th>
+                <th>Настройки волнопродуктора</th>
+                <th>Дамба</th>
+                
+                <th>Длительность эксперимента</th>
+                <th>Стратификация</th>
+                <th>Полярность волны</th>
+                <th>Настройки лазера</th>
+                <th>Доп. условия</th>
+            </tr>
+        </thead>
         {% for Experiment in database %}
         <tr>
             <td>
-                {{ Experiment.id }}
+                <a href="/experiment/{{ Experiment.id }}/view/">{{ Experiment.id }}</a>
             </td>
             <td>
                 {% if Experiment.date_and_time %}
@@ -226,8 +256,8 @@
                 </p>
             </td>
             <td>
-                {% if Experiment.sheme_of_exp_reference %}
-                    <a href="{{ Experiment.sheme_of_exp_reference }}" target="_blank">
+                {% if Experiment.schema_of_exp_reference %}
+                    <a href="{{ Experiment.schema_of_exp_reference }}" target="_blank">
                         Смотреть
                     </a>
                 {% else %}
@@ -370,7 +400,6 @@
                 {% endif %}
             </td>
             <td>
-                {% if Experiment.laser.used %}
                     {% if Experiment.laser.video_reference %}
                         <a href="{{ Experiment.laser.video_reference }}" target="_blank">
                             Смотреть видеозапись
@@ -391,9 +420,7 @@
                         Данных нет
                     {% endif %}
                     <br>
-                {% else %}
-                    Не использовалось
-                {% endif %}
+
             </td>
             <td>
                 {% if Experiment.types_of_experiment %}

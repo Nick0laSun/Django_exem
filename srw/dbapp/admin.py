@@ -347,24 +347,15 @@ class TypesofexperimentAdmin(admin.ModelAdmin):
         return res
     particles_on_the_surface_f.short_description = 'particles on the surface'
 
-# admin.site.register(Experiment)
-# Define the admin class
-# class ExperimentAdmin(ReverseModelAdmin):
-    # list_display = ('date_and_time', 'title_of_exp', 'type_of_bottom', 'video_reference', \
-    #     'result', 'schema_of_exp_reference', 'type_of_forming', 'type_of_wave', \
-    #     'duration_of_the_exp', 'type_of_stratification', 'polarity', \
-    #     'laser', 'types_of_experiment')
-
-    # pass
 class ExperimentAdmin(admin.ModelAdmin):
 
 
-    list_display = ('id', 'date_and_time', 'title_of_exp', 'type_of_bottom', 'video_ref', \
+    list_display = ('id', 'date_and_time', 'duration_of_exp', 'title_of_exp', 'type_of_bottom', 'video_ref', \
         'string_sensors_results', 'bottom_sensors_results', 'schema_of_exp', \
         'wavemaker_settings', \
         'dam_wall_coordinate', 'dam_top_layer_settings', 'dam_middle_layer_settings', 'dam_lower_layer_settings', \
         'stratification_top_layer_sett', 'stratification_middle_layer_sett', 'stratification_lower_layer_sett', \
-        'type_of_wave', 'duration_of_exp', \
+        'type_of_wave', \
         'polarity', 'laser_settings', 'spread_over_an_obstacle', 'particles' \
     )
 
@@ -375,7 +366,6 @@ class ExperimentAdmin(admin.ModelAdmin):
         'type_of_forming__wave_maker__amplitude', 
         'type_of_forming__wave_maker__quantity_of_waves',
         'type_of_forming__wave_maker__frequency',
-        # 'type_of_forming__wave_maker__operating_time',
         'type_of_forming__wave_maker__water_height',
         'type_of_forming__dam_break__wall_coordinate'
         )
@@ -396,36 +386,7 @@ class ExperimentAdmin(admin.ModelAdmin):
             data_list = self.model.objects
             queryset = float_params_filter(data_list, search_term_as_float)
 
-            # queryset = data_list.filter(type_of_forming__wave_maker__amplitude=search_term_as_float)
-            # if not queryset:
-            #     queryset = data_list.filter(type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field=search_term_as_float)
-            #     if not queryset:
-            #         queryset = data_list.filter(type_of_forming__dam_break__type_of_stratification__top_layer__layer_height=search_term_as_float)
-                   
-            # .filter(type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field=search_term_as_float) \
-            # .filter(type_of_forming__dam_break__type_of_stratification__top_layer__layer_height=search_term_as_float) \
-            # .order_by('id')
-            # print(queryset)
         return super().get_search_results(request, queryset, '')
-
-    # search_fields = [
-    #     # 'type_of_forming__wave_maker__amplitude', 
-    #     # 'type_of_forming__wave_maker__quantity_of_waves',
-    #     # 'type_of_forming__wave_maker__frequency',
-    #     # 'type_of_forming__wave_maker__operating_time',
-    #     # 'type_of_forming__wave_maker__water_height',
-    #     'type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field',
-    #     'type_of_forming__dam_break__type_of_stratification__top_layer__name_of_the_dye',
-    #     'type_of_forming__dam_break__type_of_stratification__top_layer__layer_height',
-    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__density_of_water_g_cm_3_field',
-    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__name_of_the_dye',
-    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__layer_height',
-    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__density_of_water_g_cm_3_field',
-    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__name_of_the_dye',
-    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__layer_height'
-    # ]
-
-    # inline_reverse = ['laser']
 
     fieldsets = (
         (None,{
@@ -460,28 +421,11 @@ class ExperimentAdmin(admin.ModelAdmin):
         # })
     )
 
-    # search_fields = [
-    #     'type_of_forming__dam_break__wall_coordinate',
-    #     'type_of_forming__dam_break__type_of_stratification__top_layer__density_of_water_g_cm_3_field',
-    #     'type_of_forming__dam_break__type_of_stratification__top_layer__name_of_the_dye',
-    #     'type_of_forming__dam_break__type_of_stratification__top_layer__layer_height',
-    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__density_of_water_g_cm_3_field',
-    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__name_of_the_dye',
-    #     'type_of_forming__dam_break__type_of_stratification__middle_layer__layer_height',
-    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__density_of_water_g_cm_3_field',
-    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__name_of_the_dye',
-    #     'type_of_forming__dam_break__type_of_stratification__lower_layer__layer_height'
-    # ]
-
     def duration_of_exp(self, obj):
         return str(obj.duration_of_the_exp)
     duration_of_exp.short_description = 'Duration of exp.'
 
     def video_ref(self, obj):
-        # if not (obj.video_reference):
-        #     return "No data"
-        # else:
-        #     return format_html('<a href="{0}">YouTube</a>', obj.video_reference)
         res = video_ref_html_comp(obj)
         return res
     video_ref.short_description = 'Video reference'
@@ -735,7 +679,6 @@ class TypeofstratificationAdmin(admin.ModelAdmin):
 
 # Register the admin class with the associated model
 
-# admin.site.register(Stringsensorsresults, StringSensorsResultsAdmin)
 admin.site.register(Dambreak, DamBreakAdmin)
 admin.site.register(Wavemaker, WavemakerAdmin)
 admin.site.register(Forming, FormingAdmin)
@@ -755,7 +698,3 @@ admin.site.register(Typeofstratification, TypeofstratificationAdmin)
 # admin.site.register(Forming)
 # admin.site.register(Wavemaker)
 # admin.site.register(Dambreak)
-
-
-
-

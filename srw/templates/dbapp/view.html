@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Эксперимент №{{ Experiment.id }}</title>
+</head>
+<body class="container">
+    
+    <!-- <iframe src="{{ Experiment.video_reference }}" frameborder="0" allowfullscreen="" style="widp: 100%; height: 400px;"></iframe> -->
+
+    <div style="text-align: center;">
+        <table border="1" style="display: inline-block;">
+            <caption><h2> Эксперимент "{{ Experiment.title_of_exp }}" </h2></caption>
+            <tr>
+                <td><b><font size="4">Id:</font></b> {{ Experiment.id }}</td>
+                <td><b><font size="4">Дата и время проведения:</font></b> {{ Experiment.date_and_time }}</td>
+                <td><b><font size="4">Тип берега:</font></b> {{ Experiment.type_of_bottom }}</td>
+                <td><b><font size="4">Тип волны:</font></b> {{ Experiment.type_of_wave }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                {% if Experiment.video_reference %}<td colspan="3"><a href="{{ Experiment.video_reference }}">Видеозапись</a></td>{% endif %}
+            </tr>
+            <tr>
+                <td></td>
+                {% if Experiment.result.string_sensors.capasitive_sensors_res %}<td colspan="3"><a href="{{ Experiment.result.string_sensors.capasitive_sensors_res }}">Емкостные датчики</a></td>{% endif %}
+            </tr>
+            <tr>
+                <td></td>
+                {% if Experiment.result.string_sensors.resistive_sensors_res %}<td colspan="3"><a href="{{ Experiment.result.string_sensors.resistive_sensors_res }}">Резистивные датчики</a></td>{% endif %}
+            </tr>
+            <tr>
+                <td></td>
+                {% if xperiment.result.bottom_sensors.results %}<td colspan="3"><a href="{{ xperiment.result.bottom_sensors.results }}">Донные датчики</a></td>{% endif %}
+            </tr>
+        </table>
+    </div>
+
+    <p>
+        <!-- <b><font size="4">Название эксперимента:</font></b>
+        {{ Experiment.title_of_exp }} -->
+    </p>
+
+                
+    <p>
+        <b><font size="4">Данные с донных датчиков:</font></b><br>
+        {{ Experiment.result.bottom_sensors.results }}
+    </p>
+    <p>
+        <b><font size="4">Данные с струнных датчиков:</font></b><br>
+        {{ Experiment.result.string_sensors.capasitive_sensors_res }}<br>
+        {{ Experiment.result.string_sensors.resistive_sensors_res }}
+
+    </p>
+    <p>
+        <b><font size="4">Схема эксперимента:</font></b><br>
+        {{ Experiment.schema_of_exp_reference }}
+    </p>
+    <p>
+        <b><font size="4">Настройки волнопродуктора:</font></b><br>
+        {{ Experiment.type_of_forming.wave_maker.amplitude }}<br>
+        {{ Experiment.type_of_forming.wave_maker.quantity_of_waves }}<br>
+        {{ Experiment.type_of_forming.wave_maker.frequency }}<br>
+        {{ Experiment.type_of_forming.wave_maker.operating_time }}<br>
+        {{ Experiment.type_of_forming.wave_maker.water_height }}
+    </p>
+    <p>
+        <b><font size="4">Подвижная стенка:</font></b>
+        {{ Experiment.type_of_forming.dam_break.wall_coordinate }}<br>
+        <br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.layer_height }}<br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.density_of_water_g_cm_3_field }}<br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.name_of_the_dye }}<br>
+        <br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.layer_height }}<br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.density_of_water_g_cm_3_field }}<br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.name_of_the_dye }}<br>
+        <br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.layer_height }}<br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.density_of_water_g_cm_3_field }}<br>
+        {{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.name_of_the_dye }}<br>
+    </p>
+                
+    <p>
+        <b><font size="4">Длительность эксперимента:</font></b>
+        {{ Experiment.duration_of_the_exp }}
+    </p>
+    <p>
+        <b><font size="4">Стратификация:</font></b><br>
+        {{ Experiment.type_of_stratification.top_layer.layer_height }} См <br>
+        {{ Experiment.type_of_stratification.top_layer.density_of_water_g_cm_3_field }} г/см^3 <br>
+        {{ Experiment.type_of_stratification.top_layer.name_of_the_dye }} <br>
+        <br>
+        {{ Experiment.type_of_stratification.middle_layer.layer_height }} См <br>
+        {{ Experiment.type_of_stratification.middle_layer.density_of_water_g_cm_3_field }} г/см^3 <br>
+        {{ Experiment.type_of_stratification.middle_layer.name_of_the_dye }} <br>
+        <br>
+        {{ Experiment.type_of_stratification.lower_layer.layer_height }} См <br>
+        {{ Experiment.type_of_stratification.lower_layer.density_of_water_g_cm_3_field }} г/см^3 <br>
+        {{ Experiment.type_of_stratification.lower_layer.name_of_the_dye }} <br>
+    </p>
+    <p>
+        <b><font size="4">Полярность волны:</font></b>
+        {{ Experiment.polarity }}
+    </p>
+    <p>
+        <b><font size="4">Настройки лазера:</font></b><br>
+        {{ Experiment.laser.video_reference }}<br>
+        {{ Experiment.laser.laser_coordinate }}<br>
+        {{ Experiment.laser.viewing_angle }}<br>
+    </p>
+    <p>
+        <b><font size="4">Доп. условия:</font></b>
+    </p>
+</body>
+</html>
