@@ -167,11 +167,7 @@
                 <th>Название эксперимента</th>
                 <th>Тип берега</th>
                 <th>Тип волны</th>
-                <th>Видеозапись</th>
-                
-                <th>Данные с донных датчиков</th>
-                <th>Данные с струнных датчиков</th>
-                <th>Схема эксперимента</th>
+
                 <th>Настройки волнопродуктора</th>
                 <th>Дамба</th>
                 
@@ -216,56 +212,6 @@
                 {% endif %}
             </td>
             <td>
-                {% if Experiment.video_reference %}
-                    <a href="{{ Experiment.video_reference }}" target="_blank">
-                        YouTube
-                    </a>
-                {% else %}
-                    Данных нет
-                {% endif %}
-            </td>
-            <td>
-                {% if Experiment.result.bottom_sensors.results %}
-                    <a href="{{ Experiment.result.bottom_sensors.results }}" target="_blank">
-                        Скачать
-                    </a>
-                {% else %}
-                    Данных нет
-                {% endif %}
-            </td>
-            <td>
-                <p>
-                    Ёмкостные датчики:
-                    {% if Experiment.result.string_sensors.capasitive_sensors_res %}
-                    <a href="{{ Experiment.result.string_sensors.capasitive_sensors_res }}" target="_blank">
-                        Скачать
-                    </a>
-                    {% else %}
-                        Данных нет
-                    {% endif %}
-                </p>
-                <p>
-                    Резестивные датчики:
-                    {% if Experiment.result.string_sensors.resistive_sensors_res %}
-                    <a href="{{ Experiment.result.string_sensors.resistive_sensors_res }}" target="_blank">
-                        Скачать
-                    </a>
-                    {% else %}
-                        Данных нет
-                    {% endif %}
-                </p>
-            </td>
-            <td>
-                {% if Experiment.schema_of_exp_reference %}
-                    <a href="{{ Experiment.schema_of_exp_reference }}" target="_blank">
-                        Смотреть
-                    </a>
-                {% else %}
-                    Данных нет
-                {% endif %}
-            </td>
-            <td>
-                {% comment %} {% if Experiment.type_of_wave == "Поверхностная" %} {% endcomment %}
                 {% if Experiment.type_of_forming.wave_maker %}
                     <p>
                         Амплитуда волны:
@@ -323,7 +269,7 @@
                         {% endif %}
                     </p>
                     <p>
-                        Толщина слоёв: <br>
+                        Параметры слоёв: <br>
                         {% if Experiment.type_of_forming.dam_break.type_of_stratification %}
                             {% if Experiment.type_of_forming.dam_break.type_of_stratification.top_layer %}
                                 Верхний слой: <br>

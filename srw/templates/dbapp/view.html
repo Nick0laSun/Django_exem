@@ -13,104 +13,101 @@
             <caption><h2> Эксперимент "{{ Experiment.title_of_exp }}" </h2></caption>
             <tr>
                 <td><b><font size="4">Id:</font></b> {{ Experiment.id }}</td>
-                <td><b><font size="4">Дата и время проведения:</font></b> {{ Experiment.date_and_time }}</td>
-                <td><b><font size="4">Тип берега:</font></b> {{ Experiment.type_of_bottom }}</td>
-                <td><b><font size="4">Тип волны:</font></b> {{ Experiment.type_of_wave }}</td>
+                <td colspan="2"><b><font size="4">Дата и время проведения:</font></b> {%if Experiment.date_and_time%}{{ Experiment.date_and_time }}{%else%}Данных нет{%endif%}</td>
+                <td><b><font size="4">Тип берега:</font></b> {%if Experiment.type_of_bottom%}{{ Experiment.type_of_bottom }}{%else%}Данных нет{%endif%}</td>
+                <td><b><font size="4">Тип волны:</font></b> {%if Experiment.type_of_wave%}{{ Experiment.type_of_wave }}{%else%}Данных нет{%endif%}</td>
+                <td><b><font size="4">Длительность эксперимента:</font></b> {%if Experiment.duration_of_the_exp%}{{ Experiment.duration_of_the_exp }}{%else%}Данных нет{%endif%}</td>
+                <td><b><font size="4">Полярность волны:</font></b> {%if Experiment.polarity%}{{ Experiment.polarity }}{%else%}Данных нет{%endif%}</td>
             </tr>
             <tr>
-                <td></td>
-                {% if Experiment.video_reference %}<td colspan="3"><a href="{{ Experiment.video_reference }}">Видеозапись</a></td>{% endif %}
+                <td rowspan="5" colspan="2" align="left">
+                    {% if Experiment.type_of_forming.wave_maker %}
+                        <b><font size="4">Настройки волнопродуктора:</font></b><br>
+                        Амплитуда волны: {% if Experiment.type_of_forming.wave_maker.amplitude %}{{ Experiment.type_of_forming.wave_maker.amplitude }} {% else %} Данных нет {% endif %} <br>
+                        Кол-во волн: {% if Experiment.type_of_forming.wave_maker.quantity_of_waves %}{{ Experiment.type_of_forming.wave_maker.quantity_of_waves }} {% else %} Данных нет {% endif %} <br>
+                        Частота колебаний волнопродуктора: {% if Experiment.type_of_forming.wave_maker.frequency %}{{ Experiment.type_of_forming.wave_maker.frequency }}Гц {% else %} Данных нет {% endif %}<br>
+                        Время работы: {% if Experiment.type_of_forming.wave_maker.operating_time %}{{ Experiment.type_of_forming.wave_maker.operating_time }} {% else %} Данных нет {% endif %}<br>
+                        Тольщина слоя жидкости: {% if Experiment.type_of_forming.wave_maker.water_height %}{{ Experiment.type_of_forming.wave_maker.water_height }}См {% else %} Данных нет {% endif %}
+                    {% elif Experiment.type_of_forming.dam_break %}
+                        <b><font size="4">Подвижная стенка:</font></b><br>
+                        Место установки: {%if Experiment.type_of_forming.dam_break.wall_coordinate %}{{ Experiment.type_of_forming.dam_break.wall_coordinate }} {% else %} Денных нет {% endif %}<br>
+                        <br>
+                        {% if Experiment.type_of_forming.dam_break.type_of_stratification.top_layer %}
+                        Параметры верхнего слоя:<br>
+                        Толщина слоя: {% if Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.layer_height %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.layer_height }}См {% else %} Данных нет {% endif %}<br>
+                        Плотность жидкости: {% if Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.density_of_water_g_cm_3_field %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.density_of_water_g_cm_3_field }}Г/см^3 {% else %} Данных нет {% endif %}<br>
+                        Название красителя: {% if Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.name_of_the_dye %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.name_of_the_dye }} {% else %} Данных нет {% endif %}<br>
+                        {% endif %}
+                        <br>
+                        {% if Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer %}
+                        Параметры среднего слоя:<br>
+                        Толщина слоя: {% if Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.layer_height %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.layer_height }}См {% else %} Данных нет {% endif %}<br>
+                        Плотность жидкости: {% if Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.density_of_water_g_cm_3_field %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.density_of_water_g_cm_3_field }}Г/см^3 {% else %} Данных нет {% endif %}<br>
+                        Название красителя: {% if Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.name_of_the_dye %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.name_of_the_dye }} {% else %} Данных нет {% endif %}<br>
+                        {% endif %}
+                        <br>
+                        {% if Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer %}
+                        Параметры нижнего слоя:<br>
+                        Толщина слоя: {% if Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.layer_height %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.layer_height }}См {% else %} Данных нет {% endif %}<br>
+                        Плотность жидкости: {% if Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.density_of_water_g_cm_3_field %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.density_of_water_g_cm_3_field }}Г/см^3 {% else %} Данных нет {% endif %}<br>
+                        Название красителя: {% if Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.name_of_the_dye %}{{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.name_of_the_dye }} {% else %} Данных нет {% endif %}<br>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td rowspan="5" colspan="2" align="left">
+                    <b><font size="4">Стратификация:</font></b><br>
+                    <br>
+                    {% if Experiment.type_of_stratification.top_layer %}
+                    Параметры верхнего слоя:<br>
+                    Толщина слоя: {% if Experiment.type_of_stratification.top_layer.layer_height %}{{ Experiment.type_of_stratification.top_layer.layer_height }}См {% else %} Данных нет {% endif %}<br>
+                    Плотность жидкости: {% if Experiment.type_of_stratification.top_layer.density_of_water_g_cm_3_field %}{{ Experiment.type_of_stratification.top_layer.density_of_water_g_cm_3_field }}Г/см^3 {% else %} Данных нет {% endif %}<br>
+                    Название красителя: {% if Experiment.type_of_stratification.top_layer.name_of_the_dye %}{{ Experiment.type_of_stratification.top_layer.name_of_the_dye }} {% else %} Данных нет {% endif %}<br>
+                    {% endif %}
+                    <br>
+                    {% if Experiment.type_of_stratification.middle_layer %}
+                    Параметры среднего слоя:<br>
+                    Толщина слоя: {% if Experiment.type_of_stratification.middle_layer.layer_height %}{{ Experiment.type_of_stratification.middle_layer.layer_height }}См {% else %} Данных нет {% endif %}<br>
+                    Плотность жидкости: {% if Experiment.type_of_stratification.middle_layer.density_of_water_g_cm_3_field %}{{ Experiment.type_of_stratification.middle_layer.density_of_water_g_cm_3_field }}Г/см^3 {% else %} Данных нет {% endif %}<br>
+                    Название красителя: {% if Experiment.type_of_stratification.middle_layer.name_of_the_dye %}{{ Experiment.type_of_stratification.middle_layer.name_of_the_dye }} {% else %} Данных нет {% endif %}<br>
+                    {% endif %}
+                    <br>
+                    {% if Experiment.type_of_stratification.lower_layer %}
+                    Параметры нижнего слоя:<br>
+                    Толщина слоя: {% if Experiment.type_of_stratification.lower_layer.layer_height %}{{ Experiment.type_of_stratification.lower_layer.layer_height }}См {% else %} Данных нет {% endif %}<br>
+                    Плотность жидкости: {% if Experiment.type_of_stratification.lower_layer.density_of_water_g_cm_3_field %}{{ Experiment.type_of_stratification.lower_layer.density_of_water_g_cm_3_field }}Г/см^3 {% else %} Данных нет {% endif %}<br>
+                    Название красителя: {% if Experiment.type_of_stratification.lower_layer.name_of_the_dye %}{{ Experiment.type_of_stratification.lower_layer.name_of_the_dye }} {% else %} Данных нет {% endif %}<br>
+                    {% endif %}
+                </td>
+                <td rowspan="2" colspan="3">{% if xperiment.schema_of_exp_reference %}<a href="{{ xperiment.schema_of_exp_reference}}">Схема эксперимента</a> {% else %} Схема не указана {% endif %}</td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td colspan="3">{% if Experiment.result.string_sensors.capasitive_sensors_res %}<a href="{{ Experiment.result.string_sensors.capasitive_sensors_res }}">Емкостные датчики</a> {% else %} Данных емкостных датчиков нет {% endif %}</td>
             </tr>
             <tr>
-                <td></td>
-                {% if Experiment.result.string_sensors.capasitive_sensors_res %}<td colspan="3"><a href="{{ Experiment.result.string_sensors.capasitive_sensors_res }}">Емкостные датчики</a></td>{% endif %}
+                <td colspan="3">{% if Experiment.result.string_sensors.resistive_sensors_res %}<a href="{{ Experiment.result.string_sensors.resistive_sensors_res }}">Резистивные датчики</a> {% else %} Данных резистивных датчиков нет {% endif %}</td>
             </tr>
             <tr>
-                <td></td>
-                {% if Experiment.result.string_sensors.resistive_sensors_res %}<td colspan="3"><a href="{{ Experiment.result.string_sensors.resistive_sensors_res }}">Резистивные датчики</a></td>{% endif %}
+                <td colspan="3">{% if Experiment.result.bottom_sensors.results %}<a href="{{ Experiment.result.bottom_sensors.results }}">Донные датчики</a> {% else %} Данных донных датчиков нет {% endif %}</td>
             </tr>
             <tr>
-                <td></td>
-                {% if xperiment.result.bottom_sensors.results %}<td colspan="3"><a href="{{ xperiment.result.bottom_sensors.results }}">Донные датчики</a></td>{% endif %}
+                <td colspan="2" align="left">
+                    <b><font size="4">Настройки лазера:</font></b><br>
+                    {%if Experiment.laser.video_reference%}<a href="{{ Experiment.laser.video_reference }}">Видеозапись</a>{%else%}Видеозаписи нет{%endif%}<br>
+                    Расположение: {%if Experiment.laser.laser_coordinate%}{{ Experiment.laser.laser_coordinate }}{%else%}Неуказано{%endif%}<br>
+                    Угол обзора линзы: {%if Experiment.laser.viewing_angle%}{{ Experiment.laser.viewing_angle }}{%else%}Неуказано{%endif%}<br>
+                </td>
+                <td colspan="2" align="left">
+                    <b><font size="4">Доп. условия:</font></b><br>
+                    Тип частиц на поверхности жидкости: {%if Experiment.types_of_experiment.spread_over_an_obstacle.type_of_particles %}{{ Experiment.types_of_experiment.spread_over_an_obstacle.type_of_particles }}{%else%}Данных нет{%endif%}<br>
+                    <br>
+                    Расположение препятствия: {%if Experiment.types_of_experiment.spread_over_an_obstacle.obstacle_coordinate%}{{ Experiment.types_of_experiment.spread_over_an_obstacle.obstacle_coordinate }}{%else%}Данных нет{%endif%}<br>
+                    Высота препятствия: {%if Experiment.types_of_experiment.spread_over_an_obstacle.obstacle_height%}{{ Experiment.types_of_experiment.spread_over_an_obstacle.obstacle_height }}{%else%}Данных нет{%endif%} 
+                </td>
+                <td colspan="3">{% if Experiment.video_reference %}<a href="{{ Experiment.video_reference }}">Видеозапись</a> {% else %} Видеозапись не указана {% endif %}</td>
+                <!-- <iframe width="425" height="349" src="{{ Experiment.video_reference }}" frameborder="0" allowfullscreen></iframe> -->
             </tr>
         </table>
     </div>
-
-    <p>
-        <!-- <b><font size="4">Название эксперимента:</font></b>
-        {{ Experiment.title_of_exp }} -->
-    </p>
-
-                
-    <p>
-        <b><font size="4">Данные с донных датчиков:</font></b><br>
-        {{ Experiment.result.bottom_sensors.results }}
-    </p>
-    <p>
-        <b><font size="4">Данные с струнных датчиков:</font></b><br>
-        {{ Experiment.result.string_sensors.capasitive_sensors_res }}<br>
-        {{ Experiment.result.string_sensors.resistive_sensors_res }}
-
-    </p>
-    <p>
-        <b><font size="4">Схема эксперимента:</font></b><br>
-        {{ Experiment.schema_of_exp_reference }}
-    </p>
-    <p>
-        <b><font size="4">Настройки волнопродуктора:</font></b><br>
-        {{ Experiment.type_of_forming.wave_maker.amplitude }}<br>
-        {{ Experiment.type_of_forming.wave_maker.quantity_of_waves }}<br>
-        {{ Experiment.type_of_forming.wave_maker.frequency }}<br>
-        {{ Experiment.type_of_forming.wave_maker.operating_time }}<br>
-        {{ Experiment.type_of_forming.wave_maker.water_height }}
-    </p>
-    <p>
-        <b><font size="4">Подвижная стенка:</font></b>
-        {{ Experiment.type_of_forming.dam_break.wall_coordinate }}<br>
-        <br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.layer_height }}<br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.density_of_water_g_cm_3_field }}<br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.top_layer.name_of_the_dye }}<br>
-        <br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.layer_height }}<br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.density_of_water_g_cm_3_field }}<br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.middle_layer.name_of_the_dye }}<br>
-        <br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.layer_height }}<br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.density_of_water_g_cm_3_field }}<br>
-        {{ Experiment.type_of_forming.dam_break.type_of_stratification.lower_layer.name_of_the_dye }}<br>
-    </p>
-                
-    <p>
-        <b><font size="4">Длительность эксперимента:</font></b>
-        {{ Experiment.duration_of_the_exp }}
-    </p>
-    <p>
-        <b><font size="4">Стратификация:</font></b><br>
-        {{ Experiment.type_of_stratification.top_layer.layer_height }} См <br>
-        {{ Experiment.type_of_stratification.top_layer.density_of_water_g_cm_3_field }} г/см^3 <br>
-        {{ Experiment.type_of_stratification.top_layer.name_of_the_dye }} <br>
-        <br>
-        {{ Experiment.type_of_stratification.middle_layer.layer_height }} См <br>
-        {{ Experiment.type_of_stratification.middle_layer.density_of_water_g_cm_3_field }} г/см^3 <br>
-        {{ Experiment.type_of_stratification.middle_layer.name_of_the_dye }} <br>
-        <br>
-        {{ Experiment.type_of_stratification.lower_layer.layer_height }} См <br>
-        {{ Experiment.type_of_stratification.lower_layer.density_of_water_g_cm_3_field }} г/см^3 <br>
-        {{ Experiment.type_of_stratification.lower_layer.name_of_the_dye }} <br>
-    </p>
-    <p>
-        <b><font size="4">Полярность волны:</font></b>
-        {{ Experiment.polarity }}
-    </p>
-    <p>
-        <b><font size="4">Настройки лазера:</font></b><br>
-        {{ Experiment.laser.video_reference }}<br>
-        {{ Experiment.laser.laser_coordinate }}<br>
-        {{ Experiment.laser.viewing_angle }}<br>
-    </p>
-    <p>
-        <b><font size="4">Доп. условия:</font></b>
-    </p>
 </body>
 </html>
